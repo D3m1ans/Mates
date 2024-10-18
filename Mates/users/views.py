@@ -1,9 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.http import HttpResponseRedirect
 from django.template.context_processors import request
 from django.urls import reverse
-from .forms import CustomAutForm, CustomUserCreationForm
+from .forms import CustomAutForm, CustomUserCreationForm, EditProfileForm
+
 
 # Create your views here.
 
@@ -38,3 +40,23 @@ def custom_login_view(request):
 def custom_logout(request):
     logout(request)
     return redirect('main')
+
+@login_required
+def profile_view(request):
+    user = request.user
+    return render(request, 'users/profile.html', {'user': user})
+
+@login_required
+def edit_profile_view(request):
+    user = request.user
+
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+
+    else:
+        form = EditProfileForm(instance=user)
+
+    return render(request, 'users/edit_profile.html', {'form': form})

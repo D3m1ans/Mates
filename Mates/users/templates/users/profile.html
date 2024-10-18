@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+
+<h2>User Profile</h2>
+
+  <p><strong>UI:</strong> {{ user.ui }}</p>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+  <p><strong>Nickname:</strong> {{ user.nickname }}</p>
+  <p><strong>Mates Points:</strong> {{ user.mates_points }}</p>
+  <p><strong>Birthdate:</strong> {{ user.birthdate }}</p>
+  <p><strong>Registration Date:</strong> {{ user.registration_date }}</p>
+  <p><strong>Profile Description:</strong> {{ user.profile_description }}</p>
+  <p><strong>Status:</strong> {{ user.status }}</p>
+  <a href="{% url 'edit_profile' %}">Edit Profile</a>
+
+  {% if user.profile_picture %}
+    <p><strong>Profile Picture:</strong></p>
+    <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
+  {% else %}
+    <p>No profile picture uploaded.</p>
+  {% endif %}
+
+
+
+</body>
+</html>

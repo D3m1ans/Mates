@@ -20,3 +20,12 @@ class CustomAutForm(AuthenticationForm):
     def confirm_login_allowed(self, user):
         if not user.is_active:
             raise forms.ValidationError('Этот аккаунт неактивен', code='inactive')
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'nickname', 'birthdate', 'profile_description', 'profile_picture']
+
+    def __init__(self, *args, **kwargs):
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+        self.fields['birthdate'].widget.attrs['type'] = 'date'
