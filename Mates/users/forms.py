@@ -9,9 +9,9 @@ class CustomUserCreationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password1"])  # Пароль шифруется с помощью метода set_password
+        user.set_password(self.cleaned_data["password1"])
         if commit:
-            user.save()  # Сохраняем пользователя в базу данных
+            user.save()
         return user
 
 class CustomAutForm(AuthenticationForm):

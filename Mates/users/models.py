@@ -38,6 +38,7 @@ class CustomUser(AbstractUser, PermissionsMixin):
     birthdate = models.DateField(null=True, blank=True)
     registration_date = models.DateTimeField(default=timezone.now)
     profile_description = models.TextField(null=True, blank=True)
+    mates_points = models.IntegerField(default=0)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
 

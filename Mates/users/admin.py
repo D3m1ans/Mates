@@ -5,7 +5,7 @@ from django import forms
 from django.contrib.auth.models import Group
 from .models import CustomUser
 
-# Форма для изменения пароля
+
 class CustomUserChangeForm(forms.ModelForm):
     password = forms.CharField(label="Новый пароль", widget=forms.PasswordInput, required=False)
 
@@ -32,7 +32,8 @@ class CustomUserAdmin(UserAdmin):
     # Поля, которые будут отображаться при редактировании пользователя
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        (_('Personal info'), {'fields': ('nickname', 'birthdate', 'profile_description', 'status', 'profile_picture')}),
+        (_('Personal info'), {'fields': ('nickname', 'birthdate', 'profile_description', 'mates_points', 'status', 'profile_picture')}),
+        (_('FeedBack'), {'fields': ('telegram_url', 'steam_url', 'discord_url')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'registration_date')}),
     )
