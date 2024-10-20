@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secret_key
+SECRET_KEY = 'django-insecure-z#v9fkd1qupc=ebk=sdpz&44ko*#h9jsya2$!ldfm_$akd%0@_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -127,3 +127,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Используем SMTP бэкенд
+EMAIL_HOST = 'smtp.gmail.com'  # SMTP сервер Gmail
+EMAIL_PORT = 587  # Порт для TLS
+EMAIL_USE_TLS = True  # Используем TLS для шифрования
+EMAIL_HOST_USER = 'mat3sh31p@gmail.com'  # Ваш email для отправки писем
+EMAIL_HOST_PASSWORD = 'hmwb nzpk tlpa xrqv'  # Пароль от вашего email
+DEFAULT_FROM_EMAIL = 'mat3sh31p@gmail.com'  # Email, с которого будут отправляться письма
