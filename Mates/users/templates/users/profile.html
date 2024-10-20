@@ -16,6 +16,9 @@
   <p><strong>Registration Date:</strong> {{ user.registration_date }}</p>
   <p><strong>Profile Description:</strong> {{ user.profile_description }}</p>
   <p><strong>Status:</strong> {{ user.status }}</p>
+  <p><strong>Telegram:</strong> {{ user.telegram_url }}</p>
+  <p><strong>Steam:</strong> {{ user.steam_url }}</p>
+  <p><strong>Discrod:</strong> {{ user.discord_url }}</p>
   <a href="{% url 'edit_profile' %}">Edit Profile</a>
 
   {% if user.profile_picture %}

@@ -24,7 +24,7 @@ class CustomAutForm(AuthenticationForm):
 class EditProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['email', 'nickname', 'birthdate', 'profile_description', 'profile_picture']
+        fields = ['email', 'nickname', 'birthdate', 'profile_description', 'telegram_url', 'steam_url', 'discord_url', 'profile_picture']
 
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)

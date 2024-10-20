@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout
 from django.http import HttpResponseRedirect
 from django.template.context_processors import request
 from django.urls import reverse
+from django.views.decorators.http import require_http_methods
 from .forms import CustomAutForm, CustomUserCreationForm, EditProfileForm
 
 
@@ -47,10 +48,11 @@ def profile_view(request):
     return render(request, 'users/profile.html', {'user': user})
 
 @login_required
+@require_http_methods(["GET", "POST"])
 def edit_profile_view(request):
-    user = request.user
+    user = request.user  # Получаем текущего пользователя
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.POST.get('_method') == 'PATCH':
         form = EditProfileForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()

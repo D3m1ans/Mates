@@ -2,17 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
 </head>
 <body>
+    <h1>Edit Your Profile</h1>
 
-<h2>Edit Profile</h2>
+    <form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
 
-  <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save Changes</button>
-  </form>
+        <!-- Скрытое поле для отправки метода PATCH -->
+        <input type="hidden" name="_method" value="PATCH">
 
+        <button type="submit">Save Changes</button>
+    </form>
 </body>
 </html>
