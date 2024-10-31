@@ -34,17 +34,10 @@ class PasswordResetRequestView(APIView):
         email = request.data.get('email')
         try:
             user = CustomUser.objects.get(email=email)
-            # Логируем значение pk
-            logger.info(f"user.pk: {user.pk}")
-
-            # Кодируем pk пользователя
             uid = urlsafe_base64_encode(force_bytes(str(user.ui)))
-            logger.info(f"Encoded UID: {uid}")
-
             token = default_token_generator.make_token(user)
 
             reset_url = f"{settings.API_BASE_URL}/password-reset-confirm/{uid}/{token}/"
-
             send_mail(
                 subject="Password Reset Request",
                 message=f"To reset your password, please click the following link: {reset_url}",
@@ -52,11 +45,8 @@ class PasswordResetRequestView(APIView):
                 recipient_list=[email],
             )
 
-            return Response({
-                "uid": uid,  # Теперь будет корректный UID
-                "token": token,
-                "message": "Password reset instructions sent to email"
-            }, status=status.HTTP_200_OK)
+            return Response({"uid": uid, "token": token, "message": "Password reset instructions sent to email"},
+                            status=status.HTTP_200_OK)
 
         except CustomUser.DoesNotExist:
             return Response({"error": "User with this email does not exist"}, status=status.HTTP_404_NOT_FOUND)
@@ -65,22 +55,18 @@ class PasswordResetConfirmView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, uid64, token):
-
-        print(f"Received UID64: {uid64}")
-        print(f"Received Token: {token}")
-
         password = request.data.get('password')
+        if not password:
+            return Response({"error": "Password is required"}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            # Декодируем uid и получаем пользователя
             uid = urlsafe_base64_decode(uid64).decode()
-            user = CustomUser.objects.get(pk=uid)
+            user = CustomUser.objects.get(ui=uid)
 
             if default_token_generator.check_token(user, token):
                 user.set_password(password)
                 user.save()
                 return Response({"message": "Password reset successfully"}, status=status.HTTP_200_OK)
-
             else:
                 return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
 
