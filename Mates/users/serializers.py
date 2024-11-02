@@ -16,3 +16,28 @@ class CustomUserSerializer(serializers.ModelSerializer):
         )
 
         return user
+
+class CustomUserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = [
+            'ui',
+            'email',
+            'nickname',
+            'mates_points',
+            'birthdate',
+            'registration_date',
+            'profile_description',
+            'status',
+            'profile_picture'
+        ]
+
+        extra_kwargs = {
+            'nickname': {'required': False},
+            'birthdate': {'required': False},
+            'profile_description': {'required': False},
+            'profile_picture': {'required': False},
+            'telegram_url': {'required': False},
+            'steam_url': {'required': False},
+            'discord_url': {'required': False},
+        }

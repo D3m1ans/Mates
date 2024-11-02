@@ -5,13 +5,15 @@ from django.core.mail import send_mail
 from django.shortcuts import render
 from django.conf import settings
 
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import AllowAny
 from rest_framework import generics, status
+from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import serializers
 
-from users.serializers import CustomUserSerializer
+from users.serializers import CustomUserSerializer, CustomUserProfileSerializer
 from users.models import CustomUser
 #import logging
 
@@ -76,3 +78,27 @@ class PasswordResetConfirmView(APIView):
 
         except (CustomUser.DoesNotExist, ValueError, TypeError):
             return Response({"error": "Invalid UID or token"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserProfileView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        serializer = CustomUserProfileSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class UserProfileUpdateView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request):
+        user = request.user
+        serializer = CustomUserProfileSerializer(user, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

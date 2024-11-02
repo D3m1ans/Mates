@@ -17,7 +17,7 @@ class CustomUserChangeForm(forms.ModelForm):
         user = super().save(commit=False)
         password = self.cleaned_data.get('password')
         if password:
-            user.set_password(password)  # Устанавливаем новый пароль
+            user.set_password(password)
         if commit:
             user.save()
         return user
