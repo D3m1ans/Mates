@@ -13,17 +13,21 @@ from rest_framework import serializers
 
 from users.serializers import CustomUserSerializer
 from users.models import CustomUser
-import logging
+#import logging
 
 # Create your views here.
 
-logger = logging.getLogger(__name__)
+#logger = logging.getLogger(__name__)
 
 class RegisterAPIView(APIView):
+
+    permission_classes = []
+
     def post(self, request):
         serializer = CustomUserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            return Response({"message": "Registration successful"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
