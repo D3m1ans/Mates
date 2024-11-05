@@ -23,6 +23,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 INSTALLED_APPS = [
     'users',
+    'friendship',
     'api',
     'rest_framework',
     'rest_framework_simplejwt',
@@ -72,8 +73,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=180),
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 

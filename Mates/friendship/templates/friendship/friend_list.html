@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Friend List</title>
+</head>
+<body>
+
+{% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+{% endif %}
+
+
+    <h1>Friend List</h1>
+    <ul>
+        {% for friendship in friendships %}
+            <li>
+                {% if friendship.sender == request.user %}
+                    {{ friendship.receiver.email }}
+                {% else %}
+                    {{ friendship.sender.email }}
+                {% endif %}
+                <form method="post" action="{% url 'delete_friend' friendship.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Remove Friend</button>
+                </form>
+            </li>
+        {% empty %}
+            <p>You have no friends.</p>
+        {% endfor %}
+    </ul>
+
+    <h2>Friend Requests</h2>
+    <ul>
+        {% for request in friend_requests %}
+            <li>
+                {{ request.sender.email }}
+                <form method="post" action="{% url 'accept_friend_request' request.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Accept</button>
+                </form>
+                <form method="post" action="{% url 'delete_friend' request.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Decline</button>
+                </form>
+            </li>
+        {% empty %}
+            <p>No pending requests.</p>
+        {% endfor %}
+    </ul>
+
+    <h2>Send Friend Request</h2>
+    <form method="get" action="{% url 'send_friend_request' %}">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+        <button type="submit">Send Request</button>
+    </form>
+
+</body>
+</html>
