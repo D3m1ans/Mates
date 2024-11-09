@@ -32,7 +32,7 @@ class CustomUser(AbstractUser, PermissionsMixin):
     ]
 
     username = None
-    ui = models.CharField(max_length=100, unique=True, default=uuid.uuid4, editable=False)
+    uid = models.CharField(max_length=100, unique=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
     nickname = models.CharField(max_length=50)
     birthdate = models.DateField(null=True, blank=True)
