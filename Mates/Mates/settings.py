@@ -24,6 +24,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 INSTALLED_APPS = [
     'users',
     'friendship',
+    'library',
     'api',
     'rest_framework',
     'rest_framework_simplejwt',

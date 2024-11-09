@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Библиотека</title>
+</head>
+<body>
+
+<h1>Моя библиотека игр</h1>
+
+<div>
+    Сортировать по:
+    <a href="?sort_by=playtime_hours&order=desc">Часы игры (по убыв.)</a> |
+    <a href="?sort_by=playtime_hours&order=asc">Часы игры (по возр.)</a> |
+    <a href="?sort_by=rating&order=desc">Рейтинг (по убыв.)</a> |
+    <a href="?sort_by=rating&order=asc">Рейтинг (по возр.)</a> |
+    <a href="?sort_by=last_played&order=desc">Последний запуск (по убыв.)</a> |
+    <a href="?sort_by=last_played&order=asc">Последний запуск (по возр.)</a>
+</div>
+
+{% if library %}
+    <ul>
+      {% for item in library %}
+        <li>
+          <strong>{{ item.game.title }}</strong> - {{ item.playtime_hours }} часов
+          {% if item.rating %} | Рейтинг: {{ item.rating }} {% endif %}
+          {% if item.last_played %} | Последний запуск: {{ item.last_played }} {% endif %}
+          <a href="{% url 'edit_game' item.pk %}">Редактировать</a> |
+          <a href="{% url 'delete_game' item.pk %}">Удалить</a>
+        </li>
+      {% endfor %}
+    </ul>
+{% else %}
+    <p>В вашей библиотеке пока нет игр. <a href="">Добавьте первую игру!</a></p>
+{% endif %}
+
+
+</body>
+</html>
